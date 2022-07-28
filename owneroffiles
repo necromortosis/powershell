@@ -1,0 +1,13 @@
+#find owner of files in share
+#change domain\username and path\to\file and \\server\share for proper user and location
+[String]$username = "domain\username"
+[String]$outfile = "c:\path\to\file"
+$path = Get-ChildItem "\\server\share" -Recurse
+Foreach( $file in $path ) {
+  $f = Get-Acl $file.FullName
+  if( $f.Owner -eq $username ) {
+    Write-Host( "{0}"-f $file.FullName | Out-File `
+      -Encoding "UTF8" `
+      -FilePath $outfile -Append)
+  }
+}
