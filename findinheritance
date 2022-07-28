@@ -1,0 +1,2 @@
+#find users without inheritance enabled on account and export in csv format to file
+Get-ADUser -SearchBase "DC=domain,DC=com" -Filter * -Properties nTSecurityDescriptor | ?{ $_.nTSecurityDescriptor.AreAccessRulesProtected -eq "False" } |Export-Csv inheritancenotfound.csv -Append
